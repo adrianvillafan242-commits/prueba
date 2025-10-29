@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Emergencias - Formularios (Mejorado)</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div class="panel-emergencias">
+        <h1>Panel de Emergencias - Registro Rápido 🚨</h1>
+
+        <div class="grid-principal">
+            
+            <section class="card" id="paciente-card"> 
+                <h2>Paciente de Alta Prioridad</h2>
+                <div class="sub-texto">Ingreso / actualización de estado</div>
+                <div class="linea"></div>
+
+                <form>
+                    <div class="form-grupo">
+                        <label>Nombre / Identificador del Paciente</label>
+                        <input type="text" placeholder="Ej: L. Quispe (F, 31)">
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Diagnóstico breve</label>
+                        <textarea rows="3" placeholder="Ej: Pre-eclampsia severa, TA elevada..."></textarea>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Prioridad</label>
+                        <div class="grupo-botones-prioridad">
+                            <input type="radio" id="p-critico" name="prioridad" value="CRITICO" checked>
+                            <label for="p-critico" class="btn-prioridad critico">CRÍTICO</label>
+                            
+                            <input type="radio" id="p-urgencia" name="prioridad" value="URGENCIA">
+                            <label for="p-urgencia" class="btn-prioridad urgencia">URGENCIA</label>
+                            
+                            <input type="radio" id="p-obs" name="prioridad" value="OBSERVACION">
+                            <label for="p-obs" class="btn-prioridad observacion">OBS.</label>
+                        </div>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Ubicación / Box</label>
+                        <input list="ubicaciones" type="text" placeholder="Ej: UCI-03 / Trauma Shock">
+                        <datalist id="ubicaciones">
+                            <option value="Trauma Shock"></option>
+                            <option value="Box 1"></option>
+                            <option value="UCI-Adultos"></option>
+                            <option value="Observación Pediatría"></option>
+                        </datalist>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Tiempo de espera aprox. (min)</label>
+                        <input type="number" min="0" placeholder="Ej: 12">
+                    </div>
+
+                    <button type="submit">Registrar Paciente</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Recursos Críticos</h2>
+                <div class="sub-texto">Disponibilidad inmediata</div>
+                <div class="linea"></div>
+
+                <form>
+                    <div class="form-inline-2col">
+                        <div class="form-grupo">
+                            <label>Recurso</label>
+                            <select>
+                                <option>Oxígeno Portátil</option>
+                                <option>Ventilador</option>
+                                <option>Guantes estériles</option>
+                                <option>Adrenalina (ampollas)</option>
+                                <option>Suturas 3-0</option>
+                            </select>
+                        </div>
+
+                        <div class="form-grupo">
+                            <label>Cantidad disponible</label>
+                            <input type="number" min="0" placeholder="Ej: 4">
+                        </div>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Estado</label>
+                        <select>
+                            <option>Normal (suficiente)</option>
+                            <option>Bajo (requiere pedido)</option>
+                            <option>Crítico (agotándose)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Comentario interno</label>
+                        <input type="text" placeholder="Ej: Pedido a Farmacia Central (llegada 14:00)">
+                    </div>
+
+                    <button type="submit">Actualizar Stock</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Personal de Guardia</h2>
+                <div class="sub-texto">Asignación de turno</div>
+                <div class="linea"></div>
+
+                <form>
+                    <div class="form-grupo">
+                        <label>Nombre / Grado</label>
+                        <input type="text" placeholder="Ej: Dra. S. Aguilar">
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Rol / Especialidad</label>
+                        <select>
+                            <option>Emergencióloga Jefe</option>
+                            <option>Enfermería UCI</option>
+                            <option>Técnico de Emergencias</option>
+                            <option>Cardiología (Interconsulta)</option>
+                            <option>Otro...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Área asignada</label>
+                        <input type="text" placeholder="Ej: UCI Adultos / Trauma Shock">
+                    </div>
+
+                    <div class="form-grupo">
+                        <label>Horario</label>
+                        <input type="text" placeholder="Ej: 22:00 - 06:00">
+                    </div>
+
+                    <button type="submit">Agregar al Turno</button>
+                </form>
+            </section>
+        </div>
+
+        <div class="footer-mini">
+            Diseño UX/UI mejorado: Prioridad con botones de radio y estilo visual para entornos críticos.
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const radioButtons = document.querySelectorAll('.grupo-botones-prioridad input[name="prioridad"]');
+            const pacienteCard = document.querySelector('#paciente-card');
+
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // Remover todas las clases de prioridad
+                    pacienteCard.classList.remove('critico');
+
+                    // Añadir la clase basada en la selección
+                    if (e.target.value === 'CRITICO') {
+                        pacienteCard.classList.add('critico');
+                    }
+                    // Se pueden añadir más condiciones aquí si fuera necesario
+                });
+            });
+
+            // Inicializar al cargar (si 'CRITICO' está checked por defecto)
+            if (document.getElementById('p-critico') && document.getElementById('p-critico').checked) {
+                pacienteCard.classList.add('critico');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+
+:root {
+    --fondo-pagina: #eef5f8; /* azul gris hospital */
+    --borde-card: #a7c7d8; /* azul suave */
+    --bg-card: #ffffff; /* blanco limpio */
+    --texto-main: #1a2e3a; /* azul oscuro */
+    --texto-sec: #486878; /* azul medio */
+    /* Colores de Acción */
+    --btn-bg: #2e9e73; /* verde clínico */
+    --btn-bg-hover: #257c5a;
+    --btn-text: #ffffff;
+    --input-borde: #7fa7bb;
+    --separador: #d2e3ec;
+    
+    /* Colores de Prioridad (CRÍTICO, URGENCIA, OBSERVACIÓN) */
+    --color-critico: #e74c3c; /* Rojo de emergencia */
+    --color-urgencia: #f39c12; /* Naranja de alerta */
+    --color-observacion: #3498db; /* Azul suave */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: var(--fondo-pagina);
+    margin: 0;
+    padding: 16px;
+    color: var(--texto-main);
+    font-size: 14px;
+}
+
+h1 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--texto-main);
+}
+
+.panel-emergencias {
+    background: var(--bg-card);
+    border: 2px solid var(--borde-card);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* GRID PRINCIPAL: 3 columnas (paciente / recursos / personal) */
+.grid-principal {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 900px) {
+    .grid-principal {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-principal {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TARJETA BASE */
+.card {
+    background: var(--bg-card);
+    border: 2px solid var(--borde-card);
+    border-radius: 6px;
+    padding: 12px;
+    /* Se añade transición para la mejora visual de prioridad */
+    transition: border-color 0.3s, box-shadow 0.3s; 
+}
+
+/* Indicador visual de la prioridad (mejora UI, activado por JS) */
+.card.critico {
+    border: 2px solid var(--color-critico);
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.5); /* Sombra más fuerte para Crítico */
+}
+
+.card h2 {
+    font-size: 15px;
+    margin: 0 0 4px 0;
+    font-weight: bold;
+    color: var(--texto-main);
+}
+
+.sub-texto {
+    font-size: 12px;
+    color: var(--texto-sec);
+    margin-bottom: 8px;
+}
+
+.linea {
+    height: 1px;
+    background: var(--separador);
+    margin-bottom: 12px;
+    border-radius: 2px;
+}
+
+/* FORMULARIO BASE */
+form {
+    background: #f8fcfe;
+    border: 1px solid var(--borde-card);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 13px;
+}
+
+form .form-grupo {
+    display: flex; 
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+form label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: var(--texto-main);
+}
+
+form input,
+form select,
+form textarea {
+    font-size: 13px;
+    padding: 8px; /* Ligeramente más padding para el UI */
+    border: 1px solid var(--input-borde);
+    border-radius: 4px;
+    background: #ffffff;
+    color: var(--texto-main);
+}
+
+form textarea {
+    resize: vertical;
+}
+
+/* Botones de acción (Mejora UI: más prominentes) */
+form button {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 10px 14px; /* Aumentado */
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(46, 158, 115, 0.4);
+    transition: background 0.2s, box-shadow 0.2s;
+    margin-top: 5px; 
+    width: 100%; /* El botón ocupa todo el ancho */
+}
+
+form button:hover {
+    background: var(--btn-bg-hover);
+    box-shadow: 0 3px 6px rgba(46, 158, 115, 0.5);
+}
+
+/* FORMULARIO DE RECURSOS: 2 columnas internas con GRID */
+.form-inline-2col {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 400px) {
+    .form-inline-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===================================================
+   MEJORA UX/UI: BOTONES DE RADIO PARA PRIORIDAD
+   =================================================== */
+.grupo-botones-prioridad {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+/* Ocultar los radio buttons nativos */
+.grupo-botones-prioridad input[type="radio"] {
+    display: none;
+}
+
+/* Estilo base de los botones/etiquetas */
+.btn-prioridad {
+    flex-grow: 1;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    border: 1px solid var(--input-borde); 
+    color: var(--texto-sec); 
+    background: #f0f4f7;
+    transition: all 0.2s;
+}
+
+/* ESTADOS SELECCIONADOS */
+.grupo-botones-prioridad input[type="radio"]:checked + .critico {
+    background: var(--color-critico);
+    color: var(--btn-text);
+    border-color: var(--color-critico);
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.7);
+}
+
+.grupo-botones-prioridad input[type="radio"]:checked + .urgencia {
+    background: var(--color-urgencia);
+    color: var(--btn-text);
+    border-color: var(--color-urgencia);
+    box-shadow: 0 0 5px rgba(243, 156, 18, 0.7);
+}
+
+.grupo-botones-prioridad input[type="radio"]:checked + .observacion {
+    background: var(--color-observacion);
+    color: var(--btn-text);
+    border-color: var(--color-observacion);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+}
+
+.footer-mini {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 11px;
+    color: var(--texto-sec);
+}
